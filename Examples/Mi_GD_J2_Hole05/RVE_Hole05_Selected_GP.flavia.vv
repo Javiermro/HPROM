@@ -1,0 +1,84 @@
+BeginZE C:\CIMNE\Codes\ROM_IntrinsicDD\SIMU\ROM\Mi_GD_J2_Hole05\RVE_Hole05_Selected_GP.flavia.vv
+   x -1.0950230360031128 2.0950231552124023
+   y 1.2264831066131592 -0.22648316621780396
+   z -2.1794495582580566 2.1794495582580566
+   e 0.72648316621780396
+   v 0 0 0
+   r 1
+   m 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1
+   c 0.5 0.5 0
+   pd 0
+   pno 0
+   pfo 0
+   pf 4
+   pv 0
+   NowUse 2
+   DrawingType 3
+   LightVector 90 90 150 0
+   OGLShadow(UseShadows) 0
+   OGLShadow(RenderMode) RenderNice
+   OGLShadow(ShadowBias) -0.002
+   OGLShadow(AmbientShadows) 1
+   OGLShadow(UseFBO) 0
+   OGLShadow(FBOSize) 2048
+   OGLShadow(DimmedLightFactor) 0.02
+   OGLStereo(UseStereo) 0
+   OGLStereo(RelativeEyeDistance) 1
+   OGLStereo(FlipEyes) 0
+   OGLStereo(StereoMode) AnaglyphColors
+   OGLStereo(EyeDistance) 0.075
+   OGLStereo(LeftEyeDistance) 1 0 0 1
+   OGLStereo(RightEyeDistance) 0 1 1 1
+EndZE C:\CIMNE\Codes\ROM_IntrinsicDD\SIMU\ROM\Mi_GD_J2_Hole05\RVE_Hole05_Selected_GP.flavia.vv
+
+BeginMirror
+   Mirror 0 Angle 0.0 AngleFake -15.0 SizeFactor 2.0 HeightOffset 0.25 Color #d9e5f24d Backlight Off EdgeStyle No Type Scene DrawMode Mirror
+EndMirror
+
+BeginInfo
+eJzNU8tu2zAQvOsr9hgDiiE/khpCUcCuFUOoH4HtOOnJoKW1Q4QiBZKK5Qb59y4pGz206KFogV6k1T5mOTPUOhOD9k2704H1CwVXzUcrCNbqIKDT/hADMy+Yw15pYHBAiZpnoFHmqFGHwdBX73mNgloKZiFHk2leWq4kXEFv0IoDAJicJ3lRCixQWuYawmbyrpnsDULXOlbVTuCo2u9Rx3BC47MrSwtVk/WJ5WQ0DOGzKkpluN+GktFgDlcbbixrhTDW7AhWwSOXuTqGsChRTqZgqrJU2obgYB4Mlwfo9glJEMcdtyaGATHMQ3odNKJ0wU5UCEzmEAET5TMLf8xGMMyyqqiEp3RGiBqE6IIQ/Q6h14UxlvbZz/qegeMrMy5GlHGNtKSqueBMn2DnRWjSEVTOCsFOJHZUX+/rlgdQr5dkHV3X+xaUgkk0wURZAv7HhkGmytPfN4lk+mOTbvu/cqlz22DQ+wxC0f9hVOB1EN6LTTIfL5YxvM14ppVRe0tCaJLHc3n3QlNLskxc02ScXtx7b6aXq3QxJ7btTjvyhqWr++nwK6Tzu8VyNlz76pvnRHLAIGzUcIEXg95eCYhCui2Of68bgmmIu6rxPydI1fYbPz5+gqSRmkS700paaK6Hq07TWbpe0UL3MWM1rLG2lUZY8W9Ip4y6/Uslaa6egVTmPENyrBv1Bz9VN6jtuXxz66rDV8aFu2fwynM6WIGFIj+MXxDBbHSyaM4wvKgKOCr94s4qq2KHGtQe8Aweww159yXwxJKndTJ3YvrjT6ZbSmx3B80ucckE0g+Wb23DyeUf0/nWHFm5febSEs5k+hR7W1fJkryJgwU9yQ462SUkZ2CWzB9c6jtCf8D/
+
+EndInfo
+
+BeginPostState
+BeginSingleMesh
+  Num meshes: 0
+  Num sets: 2
+  Num cuts: 0
+  Set: 0
+  State: On
+    Name: "Set_1 1"
+    IdSet: 1
+    Color Type: 0
+    Color Ambient: 0.2 0.2 0.2 0.5
+    Color Diffuse: 0.6 0.6 0.6 0.5
+    Color Specular: 1 1 1 0.5
+    Color Shininess: 0.5
+    Property Massive: 0
+    Property Transparent: 0
+    Property Style: 786446
+    Property Edge Width: 1
+    Property Vector Filter Factor: 0
+    Property Stream Arrow: 0
+  EndSet: 0
+  Set: 1
+  State: On
+    Name: "Set_2 2"
+    IdSet: 2
+    Color Type: 0
+    Color Ambient: 0 0 0.3 0.5
+    Color Diffuse: 0 0 1 0.5
+    Color Specular: 1 1 1 0.5
+    Color Shininess: 0.5
+    Property Massive: 0
+    Property Transparent: 0
+    Property Style: 786446
+    Property Edge Width: 1
+    Property Vector Filter Factor: 0
+    Property Stream Arrow: 0
+  EndSet: 1
+EndSingleMesh
+  Post_Prefs_Vector_Size: 0 32 32 32
+  ResultView: {Id 6} {Contour Fill} Load_Analysis 1.0 Selected_GPs//GPs//On_(1st-4th)_Gauss_Points//GP_Set_2 On_(1st-4th)_Gauss_Points 0.0 4 0
+EndPostState
+
