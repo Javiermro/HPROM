@@ -1,0 +1,38 @@
+function [USNAP,SIGMA_SNAP] = INCR_SNAP(USNAP,SIGMA_SNAP,SETTINGS)
+
+% CONVERT FROM TOTAL TO INCREMENTAL THE GIVEN SNAPSHOTS
+% IN ORDER TO CHECK THE PERFORMANCE OF THE SVD BASIS
+
+if strcmp(SETTINGS{1},'DU') || strcmp(SETTINGS{1},'du') 
+    
+    N_SNAP = size(USNAP,2) ;    
+    ID_FRONT = 2:N_SNAP;
+    ID_BACK = 1:N_SNAP-1;
+    
+    INCR_USNAP = USNAP(:,ID_FRONT) - USNAP(:,ID_BACK) ;
+    
+    %INCR_USNAP = [ INCR_USNAP zeros(size(USNAP,1),1) ] ;
+    INCR_USNAP = [ USNAP(:,1) INCR_USNAP ] ;
+    
+    USNAP = INCR_USNAP ;   
+    clear INCR_USNAP
+    
+end
+
+if strcmp(SETTINGS{2},'DS') || strcmp(SETTINGS{2},'ds')
+    
+    N_SNAP = size(SIGMA_SNAP,2) ;  
+    ID_FRONT = 2:N_SNAP;
+    ID_BACK = 1:N_SNAP-1;
+    
+    INCR_STRESS_SNAP = SIGMA_SNAP(:,ID_FRONT) - SIGMA_SNAP(:,ID_BACK) ;
+    
+    %INCR_STRESS_SNAP = [ INCR_STRESS_SNAP zeros(size(INCR_STRESS_SNAP,1),1) ] ;
+    INCR_STRESS_SNAP = [ SIGMA_SNAP(:,1) INCR_STRESS_SNAP ] ;
+    
+    SIGMA_SNAP = INCR_STRESS_SNAP ;
+    clear INCR_STRESS_SNAP
+
+end
+
+end
