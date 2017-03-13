@@ -1,0 +1,6 @@
+C     Se asume que nTens = 5 es fijo, así no hay que preocuparse en alocar que no está adecuadamente definido
+C     para fortran 77.
+      integer stranDim,nTensFijo,nVarHist,nVarAux,
+     1NPROP,NSTR1,vectorDim
+      parameter(stranDim = 2,nTensFijo = 5,nVarHist = 6,nVarAux = 1,
+     1NSTR1 = 4,NPROP = 8,vectorDim = 3)

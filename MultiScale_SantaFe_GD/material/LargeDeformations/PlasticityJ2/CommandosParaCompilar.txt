@@ -1,0 +1,3 @@
+mex -v -outdir .\material\LargeDeformations\PlasticityJ2 .\material\LargeDeformations\PlasticityJ2\f_RMapPlastJ2LD.f  .\material\LargeDeformations\PlasticityJ2\strl81ld_matlab.f .\material\LargeDeformations\PlasticityJ2\VECASI.f
+:: Debug
+mex -v -g -outdir .\material\LargeDeformations\PlasticityJ2 .\material\LargeDeformations\PlasticityJ2\f_RMapPlastJ2LD.f  .\material\LargeDeformations\PlasticityJ2\strl81ld_matlab.f .\material\LargeDeformations\PlasticityJ2\VECASI.f
