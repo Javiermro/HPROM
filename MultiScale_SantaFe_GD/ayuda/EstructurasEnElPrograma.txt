@@ -1,0 +1,41 @@
+Estructuras en el programa:
+-> e_DatSet (1:nSet)
+-------------> conec
+-------------> m_IndElemSet
+-------------> m_NumElem
+-------------> nElem
+-------------> sihvare
+-------------> siavare  
+-------------> sitvare
+-------------> m_BT
+-------------> m_DetJT
+-------------> m_VolElem  
+-------------> e_DatElem
+#(algunos elementos pueden tener campos distintos)
+--------------------------> eltype
+--------------------------> npg
+--------------------------> thickness (para elementos 2D)
+--------------------------> area (para elementos de barra)
+#--------------------------> ntens (por ahora se consideró global)
+--------------------------> npe
+--------------------------> xg
+--------------------------> wg
+--------------------------> dofpe
+-------------> e_DatMat
+#(varía según el tipo de material, se indica las más comunes)
+--------------------------> conshyp
+--------------------------> young
+--------------------------> poiss
+--------------------------> ce
+--------------------------> esImplex
+--------------------------> sihvarpg 
+--------------------------> siavarpg 
+-> e_VarEst (1:nSet)
+-------------> sigma
+-------------> eps
+-------------> eps_fluct
+-------------> hvar
+-------------> VarHistElem
+-> e_VarAux (1:nSet)
+-------------> VarAuxGP
+-------------> VarAuxElem
