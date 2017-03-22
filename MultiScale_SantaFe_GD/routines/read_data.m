@@ -24,9 +24,9 @@ function [in,xx,m_SetElem,f,funbc,e_DatSet,e_VG] = read_data(file,path_file)
 %*  CIMEC-INTEC-UNL-CONICET                                                               *
 %******************************************************************************************
 
-% Variable que almacena si el problema se puede considerar simétrico
-%(el valor por defecto es que sea un problema simétrico, y según el modelo constitutivo elemento o
-%directamente hipótesis estructural, si algunos de ellos hacen el problema no simétrico, se la modifica)
+% Variable que almacena si el problema se puede considerar simï¿½trico
+%(el valor por defecto es que sea un problema simï¿½trico, y segï¿½n el modelo constitutivo elemento o
+%directamente hipï¿½tesis estructural, si algunos de ellos hacen el problema no simï¿½trico, se la modifica)
 esKTSim = 1;
 
 %*********************************
@@ -45,11 +45,11 @@ f_VerifNom(seccion,'CSDA','Tipo de problema: Se debe ingresar "CSDA".')
 tipoProbl = [f_ProxString(fid),' ',f_ProxString(fid)];
 
 %***************************************
-%* LECTURA DE CÓMO EJECUTAR EL PROBLEMA  *
+%* LECTURA DE Cï¿½MO EJECUTAR EL PROBLEMA  *
 %***************************************
 %Por ahora no se utiliza para nada.
 seccion = f_ProxString(fid);
-f_VerifNom(seccion,'START','Definición de tipo de ejecución: Se debe ingresar "START".')
+f_VerifNom(seccion,'START','Definiciï¿½n de tipo de ejecuciï¿½n: Se debe ingresar "START".')
 tipoCorr = f_ProxString(fid);
 
 %************************************************
@@ -59,7 +59,7 @@ seccion = f_ProxString(fid);
 f_VerifNom(seccion,'CONTROL_DATA',...
    'Variables iniciales: No estï¿½ definido el inicio con "CONTROL_DATA".')
 seccion = f_ProxString(fid);
-f_VerifNom(seccion,'GEOMETRY','Variables iniciales: No está definido "GEOMETRY".')
+f_VerifNom(seccion,'GEOMETRY','Variables iniciales: No estï¿½ definido "GEOMETRY".')
 struhyp = textscan(fid,'%f',1,'Delimiter',' :','MultipleDelimsAsOne',1,'CommentStyle','$');
 struhyp = struhyp{1};
 seccion = f_ProxString(fid);
@@ -94,25 +94,25 @@ switch struhyp
       ndn = 3;
    case 4
       ndime = 2;
-      error('Lectura de datos: Hipótesis estructural no completada')
+      error('Lectura de datos: Hipï¿½tesis estructural no completada')
    case 5
       ndime = 2;
       ndn = 2;
       ntens = 1;
    %% LARGE DEFORMATIONS (Finite Strain)
    case 20   %Plane Deformations State (2D).
-      %The adopted measures are, for the stresses, the First Piola–Kirchhoff tensor (P) and for the strains,
+      %The adopted measures are, for the stresses, the First Piolaï¿½Kirchhoff tensor (P) and for the strains,
       %the Deformation gradient tensor (F).
       ndime = 2;
       ndn = 2;
       %Because the non symmetry tensors. Voigt Notation Tensor Order is [xx,yy,zz,xy,yx].
       ntens = 5;
-      %Como este problema se resuelve el equilibrio con el tensores no simétricos, se impone directamente
-      %la falta de simetría del problema
+      %Como este problema se resuelve el equilibrio con el tensores no simï¿½tricos, se impone directamente
+      %la falta de simetrï¿½a del problema
       esKTSim = 0;
    otherwise
       fclose(fid);
-      error('Lectura de datos: Hipótesis estructural no implementada')
+      error('Lectura de datos: Hipï¿½tesis estructural no implementada')
 end
 
 %*******************************************************************************
@@ -180,10 +180,10 @@ end
 
 seccion = f_ProxString(fid);
 f_VerifNom(seccion,'GENERAL_DATA',...
-   'Datos generales: No está definido el inicio con "GENERAL_DATA".')
+   'Datos generales: No estï¿½ definido el inicio con "GENERAL_DATA".')
 seccion = f_ProxString(fid);
 f_VerifNom(seccion,'GEOMETRY',...
-   'Datos de geometría: No está definido el inicio con "GEOMETRY".')
+   'Datos de geometrï¿½a: No estï¿½ definido el inicio con "GEOMETRY".')
 
 %*******************************************************************************
 %* LISTA DE CONECTIVIDADES                                                     *
@@ -191,8 +191,8 @@ f_VerifNom(seccion,'GEOMETRY',...
 %Se debe ingresar en el archivo de datos, para las conectividades, la misma cantidad de columnas
 %en todos los elementos. Estas son iguales a npe+2, y npe debe corresponder al elemento con mayor
 %cantidad de nodos. En el archivo de datos, en los elementos con menos nodos se debe llenar las
-%últimas columnas sobrantes con ceros (es decir, los nodos válidos deben estar primero, ya se
-%descartan las últimas columnas sobrantes).
+%ï¿½ltimas columnas sobrantes con ceros (es decir, los nodos vï¿½lidos deben estar primero, ya se
+%descartan las ï¿½ltimas columnas sobrantes).
 format = ['%f %f',repmat(' %f',1,npe)];
 conec = textscan(fid,format,nElem,'CollectOutput',1,'CommentStyle','$');
 conec = conec{1};
@@ -200,8 +200,8 @@ conec = conec{1};
 %completa), pero tiene que ser ï¿½nica.
 m_NumElem = conec(:,1);
 if length(m_NumElem)~=length(unique(m_NumElem))
-   error(['Lectura de datos: Lectura de conectividades: La numeración de los elementos ',...
-      'debe ser única.'])
+   error(['Lectura de datos: Lectura de conectividades: La numeraciï¿½n de los elementos ',...
+      'debe ser ï¿½nica.'])
 end
 m_SetElem = conec(:,2)';
 conec = conec(:,3:npe+2);
@@ -232,8 +232,8 @@ end
 % end
    
    
-%Se cambia las conectividades según la numeración interna del programa de los nodos (esta es
-%según el orden de las coordenadas ingresadas en el archivo de datos, y es completa), y no la
+%Se cambia las conectividades segï¿½n la numeraciï¿½n interna del programa de los nodos (esta es
+%segï¿½n el orden de las coordenadas ingresadas en el archivo de datos, y es completa), y no la
 %adoptada en el archivo de datos y guardada en in (que puede ser una lista no ordenada y no
 %completa, pero sï¿½ ï¿½nica).
 %Se coloca conec>0 ya que se mantiene la convenciï¿½n de que se usa malla distintas y uno de ellos
@@ -241,12 +241,12 @@ end
 %Esta forma de hacer la operaciï¿½n ocupa mucha memoria para el caso de mallas grandes, y la velocidad con
 %que se resuelve la operaciï¿½n vectorial se pierde si tiene que acceder al disco.
 %[conec(conec~=0),~] = find(bsxfun(@eq,in,conec(conec~=0)'));
-%La siguiente es menos exigente en memoria, pero más cpu intensivo.
-%Como en mallas grandes esta operación de cambio de numeración de la conectividad puede llevar un tiempo se
-%hace una verificación para ver si es necesaria realizarla (en el caso que se ingrese un numeración de nodo
+%La siguiente es menos exigente en memoria, pero mï¿½s cpu intensivo.
+%Como en mallas grandes esta operaciï¿½n de cambio de numeraciï¿½n de la conectividad puede llevar un tiempo se
+%hace una verificaciï¿½n para ver si es necesaria realizarla (en el caso que se ingrese un numeraciï¿½n de nodo
 %desordenada y/o discontinua).
-%Esta operación en una malla de 193101 nodos ordenada redujo los tiempos de 228.088387 seg. a 0.000741 seg
-%en el MatLab 2015a. Esto en el caso que la numeración de los nodos sea igual al índice de su posición.
+%Esta operaciï¿½n en una malla de 193101 nodos ordenada redujo los tiempos de 228.088387 seg. a 0.000741 seg
+%en el MatLab 2015a. Esto en el caso que la numeraciï¿½n de los nodos sea igual al ï¿½ndice de su posiciï¿½n.
 ticIDCambNumRed = tic;
 esComplNumNod = any(in~=(1:nnod)');
 if esComplNumNod
@@ -254,22 +254,22 @@ if esComplNumNod
    for iNod = 1:nnod
       conec(conec==in(iNod)) = iNod;
    end
-   fprintf('Tiempo de cambio de numeración de nodos de la conectividad: %f\n',toc(ticIDCambNum));
+   fprintf('Tiempo de cambio de numeraciï¿½n de nodos de la conectividad: %f\n',toc(ticIDCambNum));
 end
-fprintf('Tiempo total del cambio de numeración reducido: %f\n',toc(ticIDCambNumRed));
+fprintf('Tiempo total del cambio de numeraciï¿½n reducido: %f\n',toc(ticIDCambNumRed));
 
 %*******************************************************************************
 %* LISTA DE NODOS DE LA FRONTERA (Conectividades)                              *
 %*******************************************************************************
-%Se asume que los elementos de frontera tiene dos nodos (esto se tendría que leer del archivo de
+%Se asume que los elementos de frontera tiene dos nodos (esto se tendrï¿½a que leer del archivo de
 %datos).
 nNodElemFront = 2;
 format = ['%f',repmat(' %f',1,nNodElemFront)];
 m_ConecFront = textscan(fid,format,nElemFront,'CollectOutput',1,'CommentStyle','$');
-%Se elimina la numeración de los elementos de frontera (esta debería mantenerse si se imprimiera)
+%Se elimina la numeraciï¿½n de los elementos de frontera (esta deberï¿½a mantenerse si se imprimiera)
 m_ConecFront = m_ConecFront{1}(:,2:nNodElemFront+1);
-%Se cambia la enumercación de los nodos a la utilizada internamente dentro del programa.
-%Ver aclaración para conec.
+%Se cambia la enumercaciï¿½n de los nodos a la utilizada internamente dentro del programa.
+%Ver aclaraciï¿½n para conec.
 %[m_ConecFront(:),~] = find(bsxfun(@eq,in,m_ConecFront(:)'));
 if esComplNumNod
 for iNod = 1:nnod
@@ -299,12 +299,12 @@ for iSet = 1:nSet
    f_VerifNom(seccion,'SET','Propiedades Materiales: Cada material debe empezar con "SET".')
    set = textscan(fid,'%f',1,'Delimiter',' =','MultipleDelimsAsOne',1,'CommentStyle','$');
    set = set{1};
-   %Verifica que los números asignados al set son menor a la cantidad de set (esta forma permite
-   %programar de forma más fácil). Se utiliza para indexar set, en lugar de iSet, por si la lista
+   %Verifica que los nï¿½meros asignados al set son menor a la cantidad de set (esta forma permite
+   %programar de forma mï¿½s fï¿½cil). Se utiliza para indexar set, en lugar de iSet, por si la lista
    %de sets en forma desordenada.
    if isempty(set)||set<=0||set>nSet
-      %ver si hacer que se pueda usar número cualquiera para identificar el material
-      error(['Lectura de datos: Propiedades Materiales: Se debe indicar el número del "SET" ',...
+      %ver si hacer que se pueda usar nï¿½mero cualquiera para identificar el material
+      error(['Lectura de datos: Propiedades Materiales: Se debe indicar el nï¿½mero del "SET" ',...
          'y el nï¿½mero de set debe ser mayor que ser cero y menor o igual a la cantidad de sets.'])
    end
    
@@ -327,7 +327,7 @@ for iSet = 1:nSet
    end
    if isnan(e_DatElem.npg)||e_DatElem.npg<=0
       fclose(fid);
-      error(['Lectura de datos: Lectura de los SETs: El número de PG debe ser indicado en ',...
+      error(['Lectura de datos: Lectura de los SETs: El nï¿½mero de PG debe ser indicado en ',...
          'DIMENSIONS o en el SET, y debe ser mayor que cero'])
    end
    
@@ -339,7 +339,7 @@ for iSet = 1:nSet
    m_NumElemSet = m_NumElem(m_IndElemSet)';
    e_DatSet(set).nElem = nElemSet;
    
-   %Variables exigidas según el tipo de elemento
+   %Variables exigidas segï¿½n el tipo de elemento
    switch eltype
       case 2    % Triangulo de tres nodos
          %Espesor de elemento.
@@ -375,8 +375,8 @@ for iSet = 1:nSet
          e_DatElem.npg = e_DatElem.npg*e_DatElem.npg;
          e_DatElem.wg = e_DatElem.wg*e_DatElem.thickness;
          %Esto sirve para cuando se usa con elementos micros de un problema multiescala donde el elemento
-         %macro son elementos Q1-SD (23). Se debe indicar la el ángulo de smoothing. Solución es usar siempre
-         %los elementos 31 ó 32, pero de tipo elástico, ya que lo tiene implementado.
+         %macro son elementos Q1-SD (23). Se debe indicar la el ï¿½ngulo de smoothing. Soluciï¿½n es usar siempre
+         %los elementos 31 ï¿½ 32, pero de tipo elï¿½stico, ya que lo tiene implementado.
          %p_IntDissip       = 1;
          %p_IntEnergy       = p_IntDissip + 1;
          %nVarHistElem = p_IntEnergy + e_DatElem.npg -1;
@@ -441,7 +441,7 @@ for iSet = 1:nSet
          e_DatElem.anchoLoc = f_ValVar('ANLOC',false,c_ValVarElem,'Propiedades Materiales');
          if conshyp~=51&&isnan(e_DatElem.anchoLoc)
             error(['Lectura de datos: Propiedades del EF: Se debe ingresar el ancho de ',...
-               'localización ANLOC.'])
+               'localizaciï¿½n ANLOC.'])
          end
          %Espesor de elemento.
          e_DatElem.thickness = f_ValVar('THICKNESS',true,c_ValVarElem,'Propiedades Materiales');
@@ -465,7 +465,7 @@ for iSet = 1:nSet
          %Estï¿½ programado para que el elemento tenga dos puntos de gauss en la misma posiciï¿½n,
          %por lo que se ignora cualquier valor impuesto en el archivo de datos.
          warning(['Lectura de datos: Propiedades del EF: Set %d: Se ignora los PG indicados, ',...
-            'ya que este elemento está realizado para 2 PG en la misma posición.'],set)
+            'ya que este elemento estï¿½ realizado para 2 PG en la misma posiciï¿½n.'],set)
          [xgUnico,wgUnico] = set_var(eltype,1,fid);
          e_DatElem.xg = [xgUnico;xgUnico];
          e_DatElem.wg = [wgUnico;wgUnico];
@@ -483,11 +483,11 @@ for iSet = 1:nSet
          %activado la bifurcaciï¿½n
          e_DatElem.estabNoBif = m_ValVar(2);
          e_DatElem.estabBif = m_ValVar(3);
-         %Está programado para que el elemento tenga cinco puntos de gauss, 4 ubicados según la cuadratura
+         %Estï¿½ programado para que el elemento tenga cinco puntos de gauss, 4 ubicados segï¿½n la cuadratura
          %de gauss y otro en el centro por lo que se ignora cualquier valor impuesto en el archivo de
          %datos.
          warning(['Lectura de datos: Propiedades del EF: Set %d: Se ignora los PG indicados, ',...
-            'ya que este elemento está realizado para 5 PG.'],set)
+            'ya que este elemento estï¿½ realizado para 5 PG.'],set)
          %Lo que se ingresa son los puntos de gauss por lado, y se necesita los totales.
          [xgEst,wgEst] = set_var(eltype,2,fid);
          xgCen = set_var(eltype,1,fid);
@@ -497,25 +497,25 @@ for iSet = 1:nSet
          e_DatElem.wg = [wgEst;0];
          e_DatElem.npg = 5;
          e_DatElem.wg = e_DatElem.wg*e_DatElem.thickness;
-         %Número de variables auxiliares del elemento.
-         %1er Componente: Para almacenar la condición de bifurcación.
+         %Nï¿½mero de variables auxiliares del elemento.
+         %1er Componente: Para almacenar la condiciï¿½n de bifurcaciï¿½n.
          nVarAuxElem = 1;
-         %Número de variables históricas del elemento.
-         %Se utiliza para almacenar las tensiones estabilizadas (un tensor de tensión por punto de gauss).
+         %Nï¿½mero de variables histï¿½ricas del elemento.
+         %Se utiliza para almacenar las tensiones estabilizadas (un tensor de tensiï¿½n por punto de gauss).
          nVarHistElem = ntens*e_DatElem.npg;
-      case {21,22,23}       %Cuadrángulo de 4 nodos mixed con strain injection & SD MANUEL
+      case {21,22,23}       %Cuadrï¿½ngulo de 4 nodos mixed con strain injection & SD MANUEL
          %
          esKTSim = 0;         
          exist_CrackPath = true;
          %
          e_DatElem.npe = 4;
-         %Extracción de variables
+         %Extracciï¿½n de variables
          m_ExigProp = true(5,1);
          if eltype==23
             %En el elemento 23 actualmente no se utiliza LE.
             m_ExigProp(3) = false;
          end
-         %La energía de fractura de referencia para la determinación del instante de inyección (GFVREF) no se
+         %La energï¿½a de fractura de referencia para la determinaciï¿½n del instante de inyecciï¿½n (GFVREF) no se
          %exige.
          m_ExigProp(5) = false;
          %
@@ -529,15 +529,15 @@ for iSet = 1:nSet
          if eltype==21||eltype==22
             e_DatElem.le = m_ValVar(3);
          end
-         %Factor de inyección
+         %Factor de inyecciï¿½n
          e_DatElem.facIny = m_ValVar(4);
-         %Energía de fractura de referencia
+         %Energï¿½a de fractura de referencia
          e_DatElem.gfvRef = f_ValDefecto(m_ValVar(5),NaN,set,'GFVREF');
-         %Está programado para que el elemento tenga seis puntos de gauss, 4 ubicados según la cuadratura
+         %Estï¿½ programado para que el elemento tenga seis puntos de gauss, 4 ubicados segï¿½n la cuadratura
          %de gauss y otro dos en el centro por lo que se ignora cualquier valor impuesto en el archivo de
          %datos.
          warning(['Lectura de datos: Propiedades del EF: Set %d: Se ignora los PG indicados, ',...
-            'ya que este elemento está realizado para 6 PG.'],set)
+            'ya que este elemento estï¿½ realizado para 6 PG.'],set)
          %Lo que se ingresa son los puntos de gauss por lado, y se necesita los totales.
          [xgEst,wgEst] = set_var(eltype,2,fid);
          xgCen = set_var(eltype,1,fid);
@@ -547,15 +547,15 @@ for iSet = 1:nSet
          e_DatElem.wg = [wgEst;0;0];
          e_DatElem.npg = 6;
          e_DatElem.wg = e_DatElem.wg*e_DatElem.thickness;
-         %Número de variables auxiliares del elemento.
+         %Nï¿½mero de variables auxiliares del elemento.
          %Indice inicial de los variables auxiliares.
-         %1er Componente: Para almacenar la condición de bifurcación.
+         %1er Componente: Para almacenar la condiciï¿½n de bifurcaciï¿½n.
          p_condBif       = 1;
          p_elem_BifType  = p_condBif      + 1  ;
          p_leq_elem      = p_elem_BifType + 1 ;
          p_kSD           = p_leq_elem     + 1 ;
          p_phi_grad      = p_kSD          + 1 ;
-         %Se almacena los dos ángulos de bifurcación obtenidos.
+         %Se almacena los dos ï¿½ngulos de bifurcaciï¿½n obtenidos.
          p_n_tens        = p_phi_grad     + 8   ;
          %p_normal_bif    = p_n_tens       + 8   ;
          pAngBif = p_n_tens+8;
@@ -567,7 +567,7 @@ for iSet = 1:nSet
          p_ref_vector    = p_injFactor    + 1   ;
          p_nSmoothing    = p_ref_vector   + 2   ;         
          %nVarAuxElem     = p_nSmoothing   + 7   ;
-         %Se almacena la tracción del PGS.
+         %Se almacena la tracciï¿½n del PGS.
          p_Traccion = p_nSmoothing+8;
          nVarAuxElem = p_Traccion+1;         
          
@@ -590,14 +590,14 @@ for iSet = 1:nSet
          pointersVAE.p_nSmoothing = p_nSmoothing:p_Traccion-1;
          pointersVAE.p_Traccion = p_Traccion:nVarAuxElem;
          
-         %Número de variables históricas del elemento.
-         %Se utiliza para almacenar las tensiones estabilizadas (un tensor de tensión por punto de gauss).
+         %Nï¿½mero de variables histï¿½ricas del elemento.
+         %Se utiliza para almacenar las tensiones estabilizadas (un tensor de tensiï¿½n por punto de gauss).
          p_indSTmacro    = 1   ;
          p_indActSTmacro = p_indSTmacro + 1   ;
          p_vectVHElem    = p_indActSTmacro + 1 ;
          %p_stressTilde   = p_vectVHElem  + 8 ;
-         %Ver que el último valor guardado histórico no se está usando (9), así que se puede sacar. Hay que
-         %cambiar las función del elemento donde se almacena.
+         %Ver que el ï¿½ltimo valor guardado histï¿½rico no se estï¿½ usando (9), asï¿½ que se puede sacar. Hay que
+         %cambiar las funciï¿½n del elemento donde se almacena.
          p_stressTilde = p_vectVHElem+9;
          nVarHistElem = p_stressTilde+ntens*e_DatElem.npg-1;
          %
@@ -614,7 +614,7 @@ for iSet = 1:nSet
          e_DatElem.EF_sidesCutCPF = zeros(e_DatSet(set).nElem,1);
          e_DatElem.NumsidesCutCPF = zeros(e_DatSet(set).nElem,1);
          
-      case 31  % Cuadrangulos de 4 nodos en desplazamientos con cálculo de normal incorporada.
+      case 31  % Cuadrangulos de 4 nodos en desplazamientos con cï¿½lculo de normal incorporada.
          %Espesor de elemento.
          e_DatElem.thickness = f_ValVar('THICKNESS',true,c_ValVarElem,'Propiedades Materiales');
          %e_DatElem.ntens = 4;
@@ -631,7 +631,7 @@ for iSet = 1:nSet
          pointersVHE.i_IntDissip  = p_IntDissip    : p_IntEnergy-1 ;
          pointersVHE.i_pIntEnergy  = p_IntEnergy    : nVarHistElem ;
          e_DatElem.pointersVHE   = pointersVHE;
-      case 32  % Triángulo de 3 nodos en desplazamientos con cálculo de normal incorporada.
+      case 32  % Triï¿½ngulo de 3 nodos en desplazamientos con cï¿½lculo de normal incorporada.
          %Espesor de elemento.
          e_DatElem.thickness = f_ValVar('THICKNESS',true,c_ValVarElem,'Propiedades Materiales');
          %e_DatElem.ntens = 4;
@@ -651,9 +651,9 @@ for iSet = 1:nSet
          e_DatElem.pointersVHE   = pointersVHE;
       %
       %%LARGE DEFORMATIONS     
-      case 108     %Cuadrángulo bilineal FBar
-         %Se está incorporado en el tipo de problema, pero por si acaso se define de nuevo.
-         %Con este elemento la matriz resulta no simétrica.
+      case 108     %Cuadrï¿½ngulo bilineal FBar
+         %Se estï¿½ incorporado en el tipo de problema, pero por si acaso se define de nuevo.
+         %Con este elemento la matriz resulta no simï¿½trica.
          esKTSim = 0;
          %Espesor de elemento.
          e_DatElem.thickness = f_ValVar('THICKNESS',true,c_ValVarElem,'Propiedades Materiales');
@@ -666,7 +666,7 @@ for iSet = 1:nSet
          %Lo que se ingresa son los puntos de gauss por lado, y se necesita los totales.
          e_DatElem.npg = e_DatElem.npg*e_DatElem.npg;
          e_DatElem.wg = e_DatElem.wg*e_DatElem.thickness;
-         %Se almacena la matriz de deformación del punto central para cálculo del gradiente de deformación del
+         %Se almacena la matriz de deformaciï¿½n del punto central para cï¿½lculo del gradiente de deformaciï¿½n del
          %punto central en las variables auxiliares.
          %Ver si no conviene crear un 5to PG.
          dofpeFBar = ndn*e_DatElem.npe;
@@ -705,7 +705,7 @@ for iSet = 1:nSet
          nhvare = 4; %JLM
          nauxvar = 1;
          %
-         %La función de módulo de endurecimiento isotrópico es (pág. 91 del Computational Elasticity - Simo):
+         %La funciï¿½n de mï¿½dulo de endurecimiento isotrï¿½pico es (pï¿½g. 91 del Computational Elasticity - Simo):
          %K(alpha) = FTULT+TIT*HBA*alfa+(KIN-KCE)*(1-exp(-DEL*alfa))
 %          m_ValVar = f_ValVar({'YOUNG';'POISS';'FTULT';'HBA';'TIT';'KIN';'KCE';'DEL'},...
 %             true,c_ValVarMat,'Propiedades Materiales'); %JLM
@@ -722,7 +722,7 @@ for iSet = 1:nSet
          %nhvart = 1;
          %nhvare = 1;
          %nauxvar = 1;
-      case 4     % DAÑO ISÓTROPO
+      case 4     % DAï¿½O ISï¿½TROPO
          nhvart = 0;
          nhvare = 2;
          nauxvar = 2;
@@ -736,7 +736,7 @@ for iSet = 1:nSet
          %Se agrega el valores iniciales de las variables internas de evoluciï¿½n para no tener calcularlas
          %cada vez que se entra a la funciï¿½n de daï¿½o (ver que conviene en el caso del cluster).
          e_DatMat.r_0 = e_DatMat.ftult/sqrt(e_DatMat.young);
-      case 5     % DAÑO ISÓTROPO SOLO TRACCIÓN
+      case 5     % DAï¿½O ISï¿½TROPO SOLO TRACCIï¿½N
          nhvart = 0;
          nhvare = 2;
          nauxvar = 2;
@@ -752,17 +752,17 @@ for iSet = 1:nSet
          e_DatMat.r_0 = e_DatMat.ftult/sqrt(e_DatMat.young);
          %Se indica que este elemento hace que la matriz de rigidez global que no sea simï¿½trica.
          esKTSim = 0;
-      case 6     % VISCO - DAÑO
-         error('Para este modelo falta ver cuáles son las variables que hay que definir')
+      case 6     % VISCO - DAï¿½O
+         error('Para este modelo falta ver cuï¿½les son las variables que hay que definir')
          %nhvart = [];
          %nhvare = [];
          %nauxvar = [];
-      case 7     % DAÑO - PLASTICIDAD DP
-         error('Para este modelo falta ver cuáles son las variables que hay que definir')
+      case 7     % DAï¿½O - PLASTICIDAD DP
+         error('Para este modelo falta ver cuï¿½les son las variables que hay que definir')
          %nhvart = 1;
          %nhvare = 5;
          %nauxvar = 6;
-      case 8     % DAÑO - FUERZAS CENTRADAS
+      case 8     % DAï¿½O - FUERZAS CENTRADAS
          nhvart = 0;
          nhvare = 13;
          nauxvar = 10;
@@ -780,7 +780,7 @@ for iSet = 1:nSet
          %nhvare = 2;
          %nauxvar = 1;
          %nauxvar = nauxvar+ntens^2; % nauxvar+e_DatElem.ntens^2;
-      case 10    % DAÑO ISÓTROPO REGULARIZADO
+      case 10    % DAï¿½O ISï¿½TROPO REGULARIZADO
          nhvart = 0;
          nhvare = 2;
          nauxvar = 2;
@@ -807,10 +807,10 @@ for iSet = 1:nSet
          e_DatMat.r_0 = e_DatMat.ftult/sqrt(e_DatMat.young);
          %Se indica que este elemento hace que la matriz de rigidez global que no sea simï¿½trica.
          esKTSim = 0;
-      case 11   % DAÑO ISÓTROPO SÓLO TRACCIÓN REGULARIZADO
-         %Número de variables históricas tensoriales.
+      case 11   % DAï¿½O ISï¿½TROPO Sï¿½LO TRACCIï¿½N REGULARIZADO
+         %Nï¿½mero de variables histï¿½ricas tensoriales.
          nhvart = 0;
-         %Número de variables históricas escalares.
+         %Nï¿½mero de variables histï¿½ricas escalares.
          % 4 variables indice de inyeccion y 3 del modelo implex y 3 de nueva version implex tau_n y tau_n-1
          %nhvare  = 7;
          %nhvare  = 8;
@@ -829,7 +829,7 @@ for iSet = 1:nSet
          %elementos, si es string, se interpreta como una archivo de texto que indica por fila el nï¿½mero de
          %elemento y la distancia de regularizaciï¿½n. Si no se indica nada, significa que se calcula una
          %regularizaciï¿½n segï¿½n una geometrï¿½a del elemento estï¿½ndar (un triï¿½ngulo isï¿½sceles recto o un
-         %cuadrado, según el elemento, por ejemplo). Se lleva una matriz de elementos del set.
+         %cuadrado, segï¿½n el elemento, por ejemplo). Se lleva una matriz de elementos del set.
          hReg = f_ValDefecto(m_ValVar(6),NaN,set,'HREG');
          nomArchHReg = f_ValStrVar('ARCHHREG',false,c_ValVarMat,'Propiedades Materiales');
          nomArchHReg = f_ValDefecto(nomArchHReg{1},NaN,set,'ARCHHREG');
@@ -840,24 +840,24 @@ for iSet = 1:nSet
          %Se agrega el valores iniciales de las variables internas de evoluciï¿½n para no tener calcularlas
          %cada vez que se entra a la funciï¿½n de daï¿½o (ver que conviene en el caso del cluster).
          e_DatMat.r_0 = e_DatMat.ftult/sqrt(e_DatMat.young);
-         %En el caso del exponencial para una correcta regularización cuando cambie el espesor de
-         %regularización.
-         %Notar que se asume que estas dos variables históricas adicionales están al final de la matriz, es
-         %decir en la posición end y end-1.
+         %En el caso del exponencial para una correcta regularizaciï¿½n cuando cambie el espesor de
+         %regularizaciï¿½n.
+         %Notar que se asume que estas dos variables histï¿½ricas adicionales estï¿½n al final de la matriz, es
+         %decir en la posiciï¿½n end y end-1.
          if e_DatMat.tit==1  %Exponencial
             nhvare = nhvare+2;
          end            
          %Se indica que este elemento hace que la matriz de rigidez global que no sea simï¿½trica.
          esKTSim = 0;
       case {12,13}  % tipo:12=DANIO SOLO TRACCION #### tipo:13=DANIO rankine
-         %Número de variables históricas tensoriales.
+         %Nï¿½mero de variables histï¿½ricas tensoriales.
          nhvart = 0;
-         %Número de variables históricas escalares.
-         %Se agrega una para almacenar los dos ángulos de bifurcación y si bifurcó o no.
+         %Nï¿½mero de variables histï¿½ricas escalares.
+         %Se agrega una para almacenar los dos ï¿½ngulos de bifurcaciï¿½n y si bifurcï¿½ o no.
          nhvare = 5;
-         %Número de variables auxiliares.
+         %Nï¿½mero de variables auxiliares.
          %nauxvar = 2;
-         %Se agrega una para indicarle si el punto de gauss tiene que compartarse elásticamente.
+         %Se agrega una para indicarle si el punto de gauss tiene que compartarse elï¿½sticamente.
          nauxvar = 3;
          %
          m_ValVar = f_ValVar({'YOUNG';'POISS';'FTULT';'GFV';'TIT';'HREG';'IMPLEX'},...
@@ -866,31 +866,31 @@ for iSet = 1:nSet
             'gfv',m_ValVar(4),'tit',[]);
          %TIT toma por defecto el valor 0 (ya que se inicializa Eprop con ceros)
          e_DatMat.tit = f_ValDefecto(m_ValVar(5),0,set,'TIT');
-         %Se lee la distancia regularización impuesta, si es un número se impone la misma a todos los
-         %elementos, si es string, se interpreta como una archivo de texto que indica por fila el número de
-         %elemento y la distancia de regularización. Si no se indica nada, significa que se calcula una
-         %regularización según una geometría del elemento estándar (un triángulo isósceles recto o un
-         %cuadrado, según el elemento, por ejemplo). Se lleva una matriz de elementos del set.
+         %Se lee la distancia regularizaciï¿½n impuesta, si es un nï¿½mero se impone la misma a todos los
+         %elementos, si es string, se interpreta como una archivo de texto que indica por fila el nï¿½mero de
+         %elemento y la distancia de regularizaciï¿½n. Si no se indica nada, significa que se calcula una
+         %regularizaciï¿½n segï¿½n una geometrï¿½a del elemento estï¿½ndar (un triï¿½ngulo isï¿½sceles recto o un
+         %cuadrado, segï¿½n el elemento, por ejemplo). Se lleva una matriz de elementos del set.
          hReg = f_ValDefecto(m_ValVar(6),NaN,set,'HREG');
          nomArchHReg = f_ValStrVar('ARCHHREG',false,c_ValVarMat,'Propiedades Materiales');
          nomArchHReg = f_ValDefecto(nomArchHReg{1},NaN,set,'ARCHHREG');
          e_DatMat.m_hReg = f_LongReg(hReg,nomArchHReg,path_file,m_NumElemSet,nElemSet);
-         %Se define si se resuelve en forma Implícita-Explícita (Implex).
-         %Por defecto es implícito (0 ó false)
+         %Se define si se resuelve en forma Implï¿½cita-Explï¿½cita (Implex).
+         %Por defecto es implï¿½cito (0 ï¿½ false)
          e_DatMat.esImplex = f_ValDefecto(m_ValVar(7),false,set,'IMPLEX');
          if e_DatMat.esImplex
-            %En el implex se necesita almacenar el incremento de r como variable histórica.
+            %En el implex se necesita almacenar el incremento de r como variable histï¿½rica.
             nhvare = nhvare+1;
-            %Si es implex se almacena también el factor del incremento de r.
+            %Si es implex se almacena tambiï¿½n el factor del incremento de r.
             nauxvar = nauxvar+1;
          end
-         %Se agrega el valores iniciales de las variables internas de evolución para no tener calcularlas
-         %cada vez que se entra a la función de daño (ver que conviene en el caso del cluster).
+         %Se agrega el valores iniciales de las variables internas de evoluciï¿½n para no tener calcularlas
+         %cada vez que se entra a la funciï¿½n de daï¿½o (ver que conviene en el caso del cluster).
          e_DatMat.r_0 = e_DatMat.ftult/sqrt(e_DatMat.young);
-         %Se indica que este elemento hace que la matriz de rigidez global que no sea simétrica.
+         %Se indica que este elemento hace que la matriz de rigidez global que no sea simï¿½trica.
          esKTSim = 0;
-      case {50,55}    %50: MULTIESCALA MODELO CLÁSICO
-                      %55: MULTIESCALA MODELO CLÁSICO CON ANÁLISIS DE BIFURCACIÓN
+      case {50,55}    %50: MULTIESCALA MODELO CLï¿½SICO
+                      %55: MULTIESCALA MODELO CLï¿½SICO CON ANï¿½LISIS DE BIFURCACIï¿½N
          nhvart = 0;
          nhvare = 1;
 %          nauxvar = 0; %JLM
@@ -900,7 +900,7 @@ for iSet = 1:nSet
          % Archivo de elementos y PG que tiene se imprimir el postproceso de la celda unitaria
          imprResCU = f_ValDefecto(c_ValVar{2},NaN,set,'IMPRCU');
          m_ElemPGImpr = f_LectElemPGImpr(imprResCU,path_file,m_NumElemSet);
-         %Propiedades del modelo multiescala clásico
+         %Propiedades del modelo multiescala clï¿½sico
          e_DatMat = f_VarME(c_ValVar{1},path_file,m_ElemPGImpr);
       case 51    % MULTIESCALA MODELO COHESIVO OBJETIVO
          nhvart = 0;
@@ -923,7 +923,7 @@ for iSet = 1:nSet
             false,set,'IMPLEX');
          %Propiedades del modelo multiescala cohesivo
          e_DatMat = f_VarMECohesivo(c_ValVar{1},path_file,m_ElemPGImpr,esImplex);
-      case 52    % MULTIESCALA, CELDA UNITARIA ELÁSTICA
+      case 52    % MULTIESCALA, CELDA UNITARIA ELï¿½STICA
          nhvart = 0;
          nhvare = 0;
          nauxvar = 0;
@@ -979,7 +979,7 @@ for iSet = 1:nSet
          nhvare = 2+4;
          nauxvar = 1;
          %
-         %La función de módulo de endurecimiento isotrópico es (pág. 91 del Computational Elasticity - Simo):
+         %La funciï¿½n de mï¿½dulo de endurecimiento isotrï¿½pico es (pï¿½g. 91 del Computational Elasticity - Simo):
          %K(alpha) = YIELD+TIT*HBA*alfa+(KIN-KCE)*(1-exp(-DEL*alfa))
          m_ValVar = f_ValVar({'YOUNG';'POISS';'YIELD';'HBA';'TIT';'KIN';'KCE';'DEL'},...
             true,c_ValVarMat,'Propiedades Materiales');
@@ -998,10 +998,10 @@ for iSet = 1:nSet
    %Para no tener que verificar que el campo existe en las funciones de los elementos finitos (isfield) en
    %los modelos constitutivos que no tienen definido el implex, se fija que todos los modelos constitutivos
    %tengan definido esa propiedad. Como en los problemas multiescala, las funciones elementales se llaman
-   %muchísimas veces, se trata evitar operaciones simples pero que multiplicadas por la cantidad de veces
+   %muchï¿½simas veces, se trata evitar operaciones simples pero que multiplicadas por la cantidad de veces
    %que se llama incremente el tiempo.
    if ~isfield(e_DatMat,'esImplex')
-      %Por defecto se define que sea implícita.
+      %Por defecto se define que sea implï¿½cita.
       e_DatMat.esImplex = false;
    end
    
@@ -1020,18 +1020,18 @@ for iSet = 1:nSet
    %Se realiza un precï¿½lculo para acelerar el cï¿½lculo, aunque puede conllevar mayor transferencia al
    %paralelizar.
    e_DatSet(set).m_DofElem = reshape(f_DofElem(reshape(e_DatSet(set).conec',1,[]),ndn),e_DatElem.dofpe,[]);
-   % Posición de los elementos en la matriz de conectividades global
-   %(la que se ingresa en el archivo de datos) y es la numeración interna dentro del programa.
-   %Esta solo sirve en el caso que se utilice matrices donde una dimensión es la cantidad de
+   % Posiciï¿½n de los elementos en la matriz de conectividades global
+   %(la que se ingresa en el archivo de datos) y es la numeraciï¿½n interna dentro del programa.
+   %Esta solo sirve en el caso que se utilice matrices donde una dimensiï¿½n es la cantidad de
    %elementos (esta puede ser ï¿½til para simplificar ciertas operaciones pero ver si no queda muy
    %confuso y no conviene utilizar para todo lo que se refiere a matrices de elementos,
    %estructuras o celdas).
-   %Esta matriz indica que posición tiene los elementos correspondiente al set dentro de la
-   %matriz global de elementos (ordenados según como fueron indicados en el archivo de datos).
+   %Esta matriz indica que posiciï¿½n tiene los elementos correspondiente al set dentro de la
+   %matriz global de elementos (ordenados segï¿½n como fueron indicados en el archivo de datos).
    %Esta matriz global es la que se utiliza para indentificar a los elementos dentro del
    %programa.
    e_DatSet(set).m_IndElemSet = m_IndElemSet;
-   % Matrices de numeración de elementos indicada en el archivo de datos (solo para postproceso)
+   % Matrices de numeraciï¿½n de elementos indicada en el archivo de datos (solo para postproceso)
    %Esta es como se denomina los elementos en el archivo de datos (primera columna), esta puede
    %ser una lista no ordenada y no completa (puede faltar nï¿½meros), pero tiene ser ï¿½nica (es
    %decir cada elemento tiene que ser identificado en forma ï¿½nica en la lista del archivo de
@@ -1187,7 +1187,7 @@ for iStage=1:nStage
 %         %Se extrae las opciones de las condiciones de borde
 %         c_ValVarCondBord = f_ExtrVar(fid);
 %         if numel(c_ValVarCondBord)==1
-%            %En el caso que se ingrese solo el nombre de las condiciones de borde. En ese caso no se sigue la lógica de
+%            %En el caso que se ingrese solo el nombre de las condiciones de borde. En ese caso no se sigue la lï¿½gica de
 %            %nombre de variable=valorVariable.
 %            s_nomCondBorde = c_ValVarCondBord{1};
 %            matCBFull = false;
@@ -1196,16 +1196,16 @@ for iStage=1:nStage
 %            matCBFull = f_ValDefecto(f_ValVar('MATCBFULL',false,c_ValVarCondBord,'Variables de condiciones de borde'),...
 %               false,[],'MATCBFULL');
 %         end
-        %Capaz se podría usar %c para leer por separado las direcciones que están restringidas
-        %Se generaliza la lectura del valor de la restricción, se agrega una columna de opciones, que es optativo
+        %Capaz se podrï¿½a usar %c para leer por separado las direcciones que estï¿½n restringidas
+        %Se generaliza la lectura del valor de la restricciï¿½n, se agrega una columna de opciones, que es optativo
         %agregar en el archivo de datos. Esto permite agregar las coordenadas de la periodicidad en el caso de
         %problemas de un grado de libertad.
         %En el caso de poner la columna de opciones hay que poner un resultado en todas las filas.
-        %Por ahora no se pone una opción por grado de libertad, igual, en el caso de que querer poner opciones
-        %distintas para cada grado de libertad debería funcionar poner filas separadas para cada uno de ellos.
+        %Por ahora no se pone una opciï¿½n por grado de libertad, igual, en el caso de que querer poner opciones
+        %distintas para cada grado de libertad deberï¿½a funcionar poner filas separadas para cada uno de ellos.
         %formatBou = ['%f %f',repmat(' %f',1,ndn),repmat(' %s',1,ndn),'\n'];
-        %Cambiar que lea todo string entre paréntesis, así se puede agregar espacios dentro de los paréntesis.
-        formatBou = ['%f %f',repmat(' %f',1,ndn),' %s\n'];
+        %Cambiar que lea todo string entre parï¿½ntesis, asï¿½ se puede agregar espacios dentro de los parï¿½ntesis.
+        formatBou = ['%f %f',repmat(' %f',1,ndn),' %s']  ;% %s\n'];
 %         m_CondBord = textscan(fid,formatBou,'CollectOutput',true,'CommentStyle','$');
         m_CondBord_iStage = textscan(fid,formatBou,'CollectOutput',1,'CommentStyle','$');
         m_CondBord_iStage=m_CondBord_iStage{1};
@@ -1215,25 +1215,25 @@ for iStage=1:nStage
        end
 % Condiciones de contorno para todos los casos de carga del Stage
        m_CondBord_Stage = [m_CondBord_Stage;m_CondBord_iStage];
-        %Se ordena los datos ingresados según la lista de nodos, para asegurar que los índices de los
+        %Se ordena los datos ingresados segï¿½n la lista de nodos, para asegurar que los ï¿½ndices de los
         %grados de libertad libre y fijos estï¿½n bien calculados, y ordenados segï¿½n la matriz de rigidez
         %global.
         
 %         c_OpCondBord = m_CondBord{2};
 %         [m_CondBord,m_IndOrd] = sortrows(m_CondBord{1});
 %         c_OpCondBord = c_OpCondBord(m_IndOrd,:);
-%         %Se cambia la numeración de los nodos a la interna.
+%         %Se cambia la numeraciï¿½n de los nodos a la interna.
 %         [m_CondBord(:,1),~] = find(bsxfun(@eq,in,m_CondBord(:,1)'));
 %         %Lectura de comando de fin de boundary
         seccion = f_ProxString(fid);
-        f_VerifNom(seccion,'END_BOUNDARY',['Condiciones de Borde: El próximo string a las ',...
+        f_VerifNom(seccion,'END_BOUNDARY',['Condiciones de Borde: El prï¿½ximo string a las ',...
            'condiciones de borde tiene que ser "END_BOUNDARY".'])
        
 
 % %% ver si queda esto       
 %         c_ValVarCondBord = f_ExtrVar(fid);
 %         if numel(c_ValVarCondBord)==1
-%            %En el caso que se ingrese solo el nombre de las condiciones de borde. En ese caso no se sigue la lógica de
+%            %En el caso que se ingrese solo el nombre de las condiciones de borde. En ese caso no se sigue la lï¿½gica de
 %            %nombre de variable=valorVariable.
 %            s_nomCondBorde = c_ValVarCondBord{1};
 %            matCBFull = false;
@@ -1306,7 +1306,7 @@ doff_RM = sort(doff_RM);
 % c_OpCondBord = c_OpCondBord(m_IndOrd,:);
 % [m_CondBord(:,1),~] = find(bsxfun(@eq,in,m_CondBord(:,1)'));
 % seccion = f_ProxString(fid);
-% f_VerifNom(seccion,'END_BOUNDARY',['Condiciones de Borde: El próximo string a las ',...
+% f_VerifNom(seccion,'END_BOUNDARY',['Condiciones de Borde: El prï¿½ximo string a las ',...
 %    'condiciones de borde tiene que ser "END_BOUNDARY".'])
 
 m_CondBord.m_SCondBord=m_SCondBord;
@@ -1325,8 +1325,8 @@ nomEstrat = f_ProxString(fid);
 
 % BUSQUEDA LINEAL
 seccion = f_ProxString(fid);
-f_VerifNom(seccion,'LINE_SEARCH',['Estrategia: Búsqueda lineal: Se debe indicar si activar la ',...
-   'búsqueda lineal en "LINE_SEARCH".'])
+f_VerifNom(seccion,'LINE_SEARCH',['Estrategia: Bï¿½squeda lineal: Se debe indicar si activar la ',...
+   'bï¿½squeda lineal en "LINE_SEARCH".'])
 lsearch = f_ProxString(fid);
 if strcmp(lsearch,'OFF')
    lsearch = false;
@@ -1334,7 +1334,7 @@ else
    lsearch = true;
 end
 
-% SECCIÓN DE DATOS DE CONVERGENCIA
+% SECCIï¿½N DE DATOS DE CONVERGENCIA
 seccion = f_ProxString(fid);
 f_VerifNom(seccion,'CONVERGENCE',['Estrategia: Datos de convergencia: Se debe indicar los datos de ',...
    'convergencia con "CONVERGENCE".'])
@@ -1344,10 +1344,10 @@ c_ValVarConv = f_ExtrVar(fid);
 tolnr = f_ValVar('TOL_NEWTON',true,c_ValVarConv,['Estrategia: Datos de convergencia: Tolerancia del ',...
    'esquema de newton global']);
 
-% NÚMERO DE ITERACIONES MÁXIMAS
+% Nï¿½MERO DE ITERACIONES Mï¿½XIMAS
 %El valor por defecto es 50 iteraciones.
 iterMax = f_ValDefecto(f_ValVar('ITERMAX',false,c_ValVarConv,['Estrategia: Datos de convergencia: ',...
-   'Iteraciones máximas del esquema de newton global']),50,[],'ITERMAX');
+   'Iteraciones mï¿½ximas del esquema de newton global']),50,[],'ITERMAX');
 
 
 % TOLERANCIA NEWTON CONSTITUTIVO
@@ -1405,10 +1405,10 @@ postpro_impre_step = f_ValDefecto(postpro_impre_step(1),-1,set,'STEP');
 %*******************************************************************************
 %* RESULTADOS EN NODOS                                                         *
 %*******************************************************************************
-%Lectura de la próxima sección
+%Lectura de la prï¿½xima secciï¿½n
 seccion = f_ProxString(fid);
 if strcmpi(seccion,'PLOT')
-   %Según el orden indicado en esta celda es como se codifica el tipo dato.
+   %Segï¿½n el orden indicado en esta celda es como se codifica el tipo dato.
 %    c_NomDat = {'T','Dx','Dy','Dz','Fx','Fy','Fz','Bx','By','Bz','Tx','Ty','Tz',...
 %       'Exx','Eyy','Ezz','Exy','Eyx','Txx','Tyy','Tzz','Txy','Tyx','Efxx','Efyy','Efzz','Efxy',...
 %       'Da'};
@@ -1417,7 +1417,7 @@ if strcmpi(seccion,'PLOT')
       'Da','DisGLO','Ehxx','Ehyy','Ehzz','Ehxy','Shxx','Shyy','Shzz','Shxy','Snn','Snt'}; %JLM
 
    c_ValVarNGraf = f_ExtrVar(fid);
-   nGraf = f_ValVar('NGRAF',true,c_ValVarNGraf,'Gráficos X-Y');
+   nGraf = f_ValVar('NGRAF',true,c_ValVarNGraf,'Grï¿½ficos X-Y');
    if nGraf>0
       m_DatGrafXY = nan(nGraf,8);
       for iGraf =  1:nGraf
@@ -1425,19 +1425,19 @@ if strcmpi(seccion,'PLOT')
          %Se recupera el nodo, elemento y punto de gauss de los datos que se quiere graficar en los
          %ejes X e Y.
          m_DatGrafPos = f_ValVar({'Nx','Ny','Ex','Ey','PGx','PGy'},....
-            [false,false,false,false,false,false],c_ValVarGraf,'Gráficos X-Y');
-         c_DatGrafTipo = f_ValStrVar({'X','Y'},[true,true],c_ValVarGraf,'Gráficos X-Y');
+            [false,false,false,false,false,false],c_ValVarGraf,'Grï¿½ficos X-Y');
+         c_DatGrafTipo = f_ValStrVar({'X','Y'},[true,true],c_ValVarGraf,'Grï¿½ficos X-Y');
          %Se recupera y se codifica que variable se quiere imprimir.
          m_DatGrafXY(iGraf,7) = find(strcmpi(c_DatGrafTipo{1},c_NomDat));
          m_DatGrafXY(iGraf,8) = find(strcmpi(c_DatGrafTipo{2},c_NomDat));
-         % Se transforma según la numeración interna
-         %Se utiliza la numeración global interna (es decir la que se obtiene por el orden de los
+         % Se transforma segï¿½n la numeraciï¿½n interna
+         %Se utiliza la numeraciï¿½n global interna (es decir la que se obtiene por el orden de los
          %elementos en la matriz de conectividad completa)
-         %En el caso que no se ingrese algún nodo, elemento o punto de gauss, se deja la matriz
+         %En el caso que no se ingrese algï¿½n nodo, elemento o punto de gauss, se deja la matriz
          %con los valores NaN. Esto puede hacer que alguna grï¿½fica le falta alguna informaciï¿½n de
          %que dato se quiere graficar, por luego segï¿½n el modelo constitutivo y tipo de elemento
          %se verifica esto (notar que por ejemplo que si se grafica el tiempo, no es necesasrio
-         %ingresar ningún dato).
+         %ingresar ningï¿½n dato).
          for iEje = 1:2
             %X e Y de los datos nodales
             if ~isnan(m_DatGrafPos(iEje))
@@ -1474,9 +1474,9 @@ else
 end
 
 %*******************************************************************************
-%* FINALIZACIÓN SECCIÓN ESTRATEGIA                                             *
+%* FINALIZACIï¿½N SECCIï¿½N ESTRATEGIA                                             *
 %*******************************************************************************
-f_VerifNom(seccion,'END_STRATEGY','Estrategias numéricas: El string final tiene que ser "END_STRATEGY".')
+f_VerifNom(seccion,'END_STRATEGY','Estrategias numï¿½ricas: El string final tiene que ser "END_STRATEGY".')
 
 %*******************************************************************************
 %* SE CIERRA ARCHIVO                                                           *
@@ -1501,7 +1501,7 @@ max_time = Dtime*np;
 %esta parte del cï¿½digo, o por lo menos si se modifica en una funciï¿½n a esta modificaciï¿½n se la
 %utilice en las funciones que llama esta (funciones internas), es decir que no sea necesario
 %devolver como resultado e_VG.
-%Para pasar en forma temporal el Set actual  a las funciones que están dentro del parfor del ensamblaje se
+%Para pasar en forma temporal el Set actual  a las funciones que estï¿½n dentro del parfor del ensamblaje se
 %agrega la variable iSet (esto solo sirve para debug).
 K_GlobElast= sparse([]);
 e_VG = struct('struhyp',struhyp,'conshyp',conshyp,...
@@ -1548,15 +1548,15 @@ end
       end
   end
 
-%% Precálculo de las matrices geométricas de los elementos finitos
-%Ver si no cambiar la función y meterla en el loop de los set de arriba (el problema que no está
+%% Precï¿½lculo de las matrices geomï¿½tricas de los elementos finitos
+%Ver si no cambiar la funciï¿½n y meterla en el loop de los set de arriba (el problema que no estï¿½
 %definida la e_VG a ese nivel).
 e_DatSet = f_MatBT(xx,e_DatSet,e_VG);
 
-%% Precálculo de las matrices elásticas y de las longitudes de regularización del modelo de
-%%daño regularizado
-%Es necesario ponerlo al final del read_dat para que esté definido el e_VG (ver si no cambiar la
-%función c_elas para que no sea necesario pasarle e_VG, y directamente las variables que necesita)
+%% Precï¿½lculo de las matrices elï¿½sticas y de las longitudes de regularizaciï¿½n del modelo de
+%%daï¿½o regularizado
+%Es necesario ponerlo al final del read_dat para que estï¿½ definido el e_VG (ver si no cambiar la
+%funciï¿½n c_elas para que no sea necesario pasarle e_VG, y directamente las variables que necesita)
 ticIDPreCalc = tic;
 for iSet = 1:nSet
    
@@ -1584,11 +1584,11 @@ for iSet = 1:nSet
             end
          end
          e_DatSet(iSet).e_DatElem.ksb = ksb;         
-      case 32   %triángulo de 3 nodos
+      case 32   %triï¿½ngulo de 3 nodos
          normal_micro = zeros(2,nElem);
          le_micro     = zeros(nElem,1);
          %Lectura de las normales micro de un archivo de datos.
-         %El archivo está organizado de la siguiente forma: NroElem AngNorm LongElem
+         %El archivo estï¿½ organizado de la siguiente forma: NroElem AngNorm LongElem
          fId = fopen([fileCompleto,'.normElem'],'rt');
          if fId~=-1
             m_AngNormMic = fscanf(fId,'%f %f %f\n',[3,Inf])';
@@ -1597,7 +1597,7 @@ for iSet = 1:nSet
             m_AngNormMic = zeros(0,3);
          end
          m_NumElemSet = e_DatSet(iSet).m_NumElem;
-         %Se espera el número de elemento y el ángulo.
+         %Se espera el nï¿½mero de elemento y el ï¿½ngulo.
          for iElem = 1:nElem
             xx_elem=xx(conec(iElem,:),:);
             % decide which size is the larger one !
@@ -1631,15 +1631,15 @@ for iSet = 1:nSet
             if any(m_IndSet)
                ang = m_AngNormMic(m_IndSet,2);
                normal_micro(:,iElem) = [cos(ang),sin(ang)];
-               %Se divide la longitud en dos porque después se hace una suma en todos los elementos para
-               %el cálculo de la longitud total y cuando se integra sobre S, y siempre hay dos triángulos
+               %Se divide la longitud en dos porque despuï¿½s se hace una suma en todos los elementos para
+               %el cï¿½lculo de la longitud total y cuando se integra sobre S, y siempre hay dos triï¿½ngulos
                %superpuestos.
                le_micro(iElem) = m_AngNormMic(m_IndSet,3)/2;
             else
                %En el caso de no encontrarse en el archivo de datos se calcula.
                normal_micro(:,iElem) =(n+m)'/norm(n+m);
-               %Se guarda la mitad de la longitud porque después se hace una suma en todos los elementos para
-               %el cálculo de la longitud total y cuando se integra sobre S, y siempre hay dos triángulos
+               %Se guarda la mitad de la longitud porque despuï¿½s se hace una suma en todos los elementos para
+               %el cï¿½lculo de la longitud total y cuando se integra sobre S, y siempre hay dos triï¿½ngulos
                %superpuestos.
                le_micro(iElem)= 0.25*(norm(n)+norm(m));
             end
@@ -1650,27 +1650,27 @@ for iSet = 1:nSet
          e_DatSet(iSet).e_DatElem.normal_micro = normal_micro;
          e_DatSet(iSet).e_DatElem.le_Elem = le_micro;
       case 23
-         %Definición de la energía de fractura de referencia usada para definir cuando inyectar el SD.
+         %Definiciï¿½n de la energï¿½a de fractura de referencia usada para definir cuando inyectar el SD.
          if isnan(e_DatSet(iSet).e_DatElem.gfvRef)
             switch conshyp
                case 11
                   e_DatSet(iSet).e_DatElem.gfvRef = e_DatSet(iSet).e_DatMat.gfv;
                case {53,54}
-                  %Seleccionar en duro el set material en la microescala donde se extrae la energía de
+                  %Seleccionar en duro el set material en la microescala donde se extrae la energï¿½a de
                   %fractura de referencia.
                   set = 3;
                   e_DatSet(iSet).e_DatElem.gfvRef = e_DatSet(iSet).e_DatMat.e_DatSet(set).e_DatMat.gfv;
-                  warning(['Lectura de datos: Inicialización variables: Elemento finito Q1-SD: ',...
-                     'Energía de fractura de referencia: Se utiliza el set material %d de la microescala ',...
-                     'para definir la energía de fractura de referencia del elemento Q1-SD.'],set)
+                  warning(['Lectura de datos: Inicializaciï¿½n variables: Elemento finito Q1-SD: ',...
+                     'Energï¿½a de fractura de referencia: Se utiliza el set material %d de la microescala ',...
+                     'para definir la energï¿½a de fractura de referencia del elemento Q1-SD.'],set)
                otherwise
-                  error(['Lectura de datos: Inicialización variables: Elemento finito SD-Q1: ',...
-                     'Energía de fractura de referencia: Modelo constitutivo no definido.'])
+                  error(['Lectura de datos: Inicializaciï¿½n variables: Elemento finito SD-Q1: ',...
+                     'Energï¿½a de fractura de referencia: Modelo constitutivo no definido.'])
             end
          end
    end
    
-   %Inicialización de variables según el modelo constitutivo
+   %Inicializaciï¿½n de variables segï¿½n el modelo constitutivo
    thickness = e_DatElemSet.thickness;
    switch e_DatMatSet.conshyp
       case {1,2,3,4,5,6,7,8,9}
@@ -1687,9 +1687,9 @@ for iSet = 1:nSet
                case -1
                   %Se calcula segun un elemento de forma estandar con el mismo area.
                   switch eltype
-                     case {2,10,32} %Triángulo
+                     case {2,10,32} %Triï¿½ngulo
                         %Para obtener una longitud del elemento se considera como un prisma recto
-                        %de altura igual a espesor con bases de triángulos rectángulos.
+                        %de altura igual a espesor con bases de triï¿½ngulos rectï¿½ngulos.
                         %Notar que esto es solo para problemas 2D.
                         %hElemReg = sqrt(2*volElem/espesor);
                         %Es importante usar e_DatSet(iSet).e_DatMat en lugar de e_DatMatSet para
@@ -1698,36 +1698,36 @@ for iSet = 1:nSet
                         %e_DatSet(iSet) queda sin modificar.
                         e_DatSet(iSet).e_DatMat.m_hReg(nroIndHReg) = sqrt(...
                            2*e_DatSet(iSet).m_VolElem(nroIndHReg)/thickness);
-                     case {4,8,20,21,22,23,31} %Cuadrángulo
+                     case {4,8,20,21,22,23,31} %Cuadrï¿½ngulo
                         %Para obtener una longitud del elemento se considera como un prisma recto
                         %de altura igual espesor con bases de cuadrados.
                         %hElemReg = sqrt(volElem/espesor);
                         e_DatSet(iSet).e_DatMat.m_hReg(nroIndHReg) = sqrt(...
                            e_DatSet(iSet).m_VolElem(nroIndHReg)/thickness);
                      otherwise
-                        error(['Lectura de datos: Inicialización variables: Modelo constitutivo ',...
-                           'de daño regularizado: Cálculo de longitud de regularización: ',...
-                           'Tipo de cálculo -1: Elemento finito no definido.'])
+                        error(['Lectura de datos: Inicializaciï¿½n variables: Modelo constitutivo ',...
+                           'de daï¿½o regularizado: Cï¿½lculo de longitud de regularizaciï¿½n: ',...
+                           'Tipo de cï¿½lculo -1: Elemento finito no definido.'])
                   end
                case -2
-                  %Se calcula en función de la geometría del elemento.
+                  %Se calcula en funciï¿½n de la geometrï¿½a del elemento.
                   switch eltype
-                     case {31,32} %Elementos Bandas: Cuadrángulo y Triángulo
-                        %Cómo estos elementos calculan un espesor de regularización a partir de su geometría
-                        %se utiliza en el caso de no imponerse explicítamente ningún valor.
-                        %Ver que para estos elementos y material de daño 11 no lo termina utilizando
+                     case {31,32} %Elementos Bandas: Cuadrï¿½ngulo y Triï¿½ngulo
+                        %Cï¿½mo estos elementos calculan un espesor de regularizaciï¿½n a partir de su geometrï¿½a
+                        %se utiliza en el caso de no imponerse explicï¿½tamente ningï¿½n valor.
+                        %Ver que para estos elementos y material de daï¿½o 11 no lo termina utilizando
                         %finalmente ya que usa directamente la matriz e_DatSet(iSet).e_DatElem.ksb.
-                        %Para las otras funciones de daños sí lo utilizaría.
+                        %Para las otras funciones de daï¿½os sï¿½ lo utilizarï¿½a.
                         e_DatSet(iSet).e_DatMat.m_hReg(nroIndHReg) = ...
                                  e_DatSet(iSet).e_DatElem.ksb(nroIndHReg);
                      otherwise
-                        error(['Lectura de datos: Inicialización variables: Modelo constitutivo ',...
-                           'de daño regularizado: Cálculo de longitud de regularización: ',...
-                           'Tipo de cálculo -2: Elemento finito no definido.'])
+                        error(['Lectura de datos: Inicializaciï¿½n variables: Modelo constitutivo ',...
+                           'de daï¿½o regularizado: Cï¿½lculo de longitud de regularizaciï¿½n: ',...
+                           'Tipo de cï¿½lculo -2: Elemento finito no definido.'])
                   end
                otherwise
-                  error(['Lectura de datos: Inicialización variables: Modelo constitutivo ',...
-                     'de daño regularizado: Cálculo Longitud de regularización: Tipo de cálculo no ',...
+                  error(['Lectura de datos: Inicializaciï¿½n variables: Modelo constitutivo ',...
+                     'de daï¿½o regularizado: Cï¿½lculo Longitud de regularizaciï¿½n: Tipo de cï¿½lculo no ',...
                      'definido.'])
             end
          end
@@ -1735,7 +1735,7 @@ for iSet = 1:nSet
          %Se pone estos modelos constitutivos para indicar que estï¿½ definido el modelo
          %constitutivo y no salte error.
       case 54
-         %Evaluación de la matriz global del subdominio elastico
+         %Evaluaciï¿½n de la matriz global del subdominio elastico
 %          clear e_DatMat
 %          e_VGMicro = e_DatMatSet.e_VG;
 %          e_DatSetMicro = e_DatMatSet.e_DatSet;
@@ -1760,18 +1760,18 @@ for iSet = 1:nSet
          e_DatMat.sihvarpg = e_DatSet(iSet).e_DatMat.sihvarpg;
          e_DatMat.siavarpg = e_DatSet(iSet).e_DatMat.siavarpg;
          e_DatMat.esImplex = e_DatSet(iSet).e_DatMat.esImplex;
-         %Acá se sobreescribe la estructura de e_DatMat que contiene todos los datos de la microcelda, y se
-         %guarda la que tiene únicamente los campos ce, conshyp, sihvarpg y siavarpg.
+         %Acï¿½ se sobreescribe la estructura de e_DatMat que contiene todos los datos de la microcelda, y se
+         %guarda la que tiene ï¿½nicamente los campos ce, conshyp, sihvarpg y siavarpg.
          e_DatSet(iSet).e_DatMat = e_DatMat;
       %
       %LARGE DEFORMATIONS
       case {100,110}
       otherwise
-         error('Lectura de datos: Inicialización variables: Modelo constitutivo no definido.')
+         error('Lectura de datos: Inicializaciï¿½n variables: Modelo constitutivo no definido.')
    end
 
 end
-fprintf('Tiempo total de operaciones de pre-cálculo en el preproceso: %f\n',toc(ticIDPreCalc))
+fprintf('Tiempo total de operaciones de pre-cï¿½lculo en el preproceso: %f\n',toc(ticIDPreCalc))
 
 if e_VG.exist_CrackPath
    e_VG.smooth_alpha = zeros(nnod,1);
@@ -1795,10 +1795,10 @@ if e_VG.exist_CrackPath
       if exist(nomArch,'file')
          fId = fopen(nomArch,'rt');
          e_VG.m_AngSmoothImpEl = fscanf(fId,'%f %f\n',[2,inf])';
-         %Se ordena los ángulos según la numeración interna de los elementos (la numeración ingresada en el
+         %Se ordena los ï¿½ngulos segï¿½n la numeraciï¿½n interna de los elementos (la numeraciï¿½n ingresada en el
          %archivo es la nominal, la que se ingresa en el archivo de datos en la primera de columna de las
          %conectividades).
-         %Se usa matriz con NaN verificar que se hayan ingresado los ángulos para todos los elementos
+         %Se usa matriz con NaN verificar que se hayan ingresado los ï¿½ngulos para todos los elementos
          m_AngSmoothImpEl = NaN(e_VG.nElem,1);
          for iElLec = 1:size(e_VG.m_AngSmoothImpEl,1)
             m_AngSmoothImpEl(m_NumElem==e_VG.m_AngSmoothImpEl(iElLec,1)) = e_VG.m_AngSmoothImpEl(iElLec,2);
@@ -1814,7 +1814,7 @@ end
 
 function string = f_ProxString(fId)
 
-   %Encuentra la próxima sección (busca el próximo string ignorando comentarios y los signo : y =).
+   %Encuentra la prï¿½xima secciï¿½n (busca el prï¿½ximo string ignorando comentarios y los signo : y =).
    string = '';
    while isempty(string)
       string = textscan(fId,'%s',1,'Delimiter',' :=','MultipleDelimsAsOne',1,'CommentStyle','$');
@@ -1834,9 +1834,9 @@ end
 
 function c_Var = f_ExtrVar(fId)
 
-   %Se extrae todas las valores que está sobre una lï¿½nea de las variables indicadas en c_ListVar.
-   %Se considera una lï¿½nea hasta que encuentra un salto línea, donde el símbolo "\" indica que la
-   %línea continua en la siguiente.
+   %Se extrae todas las valores que estï¿½ sobre una lï¿½nea de las variables indicadas en c_ListVar.
+   %Se considera una lï¿½nea hasta que encuentra un salto lï¿½nea, donde el sï¿½mbolo "\" indica que la
+   %lï¿½nea continua en la siguiente.
    c_finLinea = {'NOVACIO'};
    textLeido = '';
    %textscan(fId,'%[:]',1,'CommentStyle','$');
@@ -1866,14 +1866,14 @@ end
 
 function m_ValNumVar = f_ValVar(c_NomVar,m_VarExig,c_Var,nomSecVar)
 
-%Devuelve los valores de las variables definidas en c_NomVar. Esta función está pensada para
-%recuperar valores numéricos.
-%En m_VarExig se indica si la variable es exigida (con 1 o true), en la cual si no está definida
+%Devuelve los valores de las variables definidas en c_NomVar. Esta funciï¿½n estï¿½ pensada para
+%recuperar valores numï¿½ricos.
+%En m_VarExig se indica si la variable es exigida (con 1 o true), en la cual si no estï¿½ definida
 %se tira un error.
-%En el caso que si el dato no se puede transformar a un valor numérico (se utiliza la función str2double),
-%sin importar si es una variable exigida, se emitirá un valor de error (se asume que cuando dentro del
-%programa se llama a esta función, quiere decir que se exige que esa variable debe devolver un valor
-%numérico).
+%En el caso que si el dato no se puede transformar a un valor numï¿½rico (se utiliza la funciï¿½n str2double),
+%sin importar si es una variable exigida, se emitirï¿½ un valor de error (se asume que cuando dentro del
+%programa se llama a esta funciï¿½n, quiere decir que se exige que esa variable debe devolver un valor
+%numï¿½rico).
 
    if ischar(c_NomVar)
       nVar = 1;
@@ -1893,9 +1893,9 @@ function m_ValNumVar = f_ValVar(c_NomVar,m_VarExig,c_Var,nomSecVar)
       m_VarExig = repmat(m_VarExig,nVar,1);
    end
 
-   %Se transforma los valores de las variables en valores numéricos en los casos que se pueda (en el caso que
+   %Se transforma los valores de las variables en valores numï¿½ricos en los casos que se pueda (en el caso que
    %no sea queda NaN en la matriz).
-   m_ValNumTodasVar = str2double(c_Var(:,2));   %Ver si no poner esta transformación dentro del loop.
+   m_ValNumTodasVar = str2double(c_Var(:,2));   %Ver si no poner esta transformaciï¿½n dentro del loop.
    m_ValNumVar = zeros(nVar,1);
    for iVar = 1:nVar
       m_IndVarBuscada = strcmpi(c_NomVar{iVar},c_Var(:,1));
@@ -1905,14 +1905,14 @@ function m_ValNumVar = f_ValVar(c_NomVar,m_VarExig,c_Var,nomSecVar)
             if ~isnan(valVar)
                m_ValNumVar(iVar) = valVar;
             else
-               error([mjeError,'La variable "%s" no tiene un valor numérico válido.'],c_NomVar{iVar})
+               error([mjeError,'La variable "%s" no tiene un valor numï¿½rico vï¿½lido.'],c_NomVar{iVar})
             end
          else
-            error([mjeError,'La variable "%s" está definida más de una vez.'],c_NomVar{iVar})
+            error([mjeError,'La variable "%s" estï¿½ definida mï¿½s de una vez.'],c_NomVar{iVar})
          end
       else
          if m_VarExig(iVar)
-            error([mjeError,'La variable "%s" no está definida en los datos.'],c_NomVar{iVar})
+            error([mjeError,'La variable "%s" no estï¿½ definida en los datos.'],c_NomVar{iVar})
          else
             m_ValNumVar(iVar) = NaN;
          end
@@ -1923,9 +1923,9 @@ end
 
 function c_ValStrVar = f_ValStrVar(c_NomVar,m_VarExig,c_Var,nomSecVar)
 
-%Devuelve los valores de las variables definidas en c_NomVar. Esta función está pensada para
+%Devuelve los valores de las variables definidas en c_NomVar. Esta funciï¿½n estï¿½ pensada para
 %recuperar valores tipo string.
-%En m_VarExig se indica si la variable es exigida (con 1 o true), en la cual si no está definida
+%En m_VarExig se indica si la variable es exigida (con 1 o true), en la cual si no estï¿½ definida
 %se tira un error.
 
    if ischar(c_NomVar)
@@ -1953,11 +1953,11 @@ function c_ValStrVar = f_ValStrVar(c_NomVar,m_VarExig,c_Var,nomSecVar)
          if sum(m_IndVarBuscada)==1
             c_ValStrVar{iVar} = c_Var{m_IndVarBuscada,2};
          else
-            error([mjeError,'La variable "%s" está definida más de una vez.'],c_NomVar{iVar})
+            error([mjeError,'La variable "%s" estï¿½ definida mï¿½s de una vez.'],c_NomVar{iVar})
          end
       else
          if m_VarExig(iVar)
-            error([mjeError,'La variable "%s" no está definida en los datos.'],c_NomVar{iVar})
+            error([mjeError,'La variable "%s" no estï¿½ definida en los datos.'],c_NomVar{iVar})
          else
             c_ValStrVar{iVar} = NaN;
          end

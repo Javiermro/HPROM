@@ -2,12 +2,13 @@
 clear
 
 % incluye todos los archivos .m de los subdirectorios /ROM...
-addpath(genpath('C:/CIMNE/ROM_IntrinsicDD'));
+addpath(genpath('/home/javiermro/Projects/HPROM'));
 % exeptua los archivos .m del directorio /MEF-NL-MultiEscala_Totales_ROM/
-rmpath('C:/CIMNE/ROM_IntrinsicDD/ROMCode/MultiEscala/MEF-NL-MultiEscala_Totales_ROM/')
+% rmpath('C:/CIMNE/ROM_IntrinsicDD/ROMCode/MultiEscala/MEF-NL-MultiEscala_Totales_ROM/')
 %Name of trajectory - user defined
 NNTTLL = 'Generic_05_005_02';
 
+path_file= '/home/javiermro/Projects/HPROM/Examples/Mi_GD_J2_StructHole/'; file = 'RVE_StructHole10.mfl';
 % path_file= 'C:/CIMNE/Codes/ROM/SIMU/ROM/MS_Uni_02_RigidHole05/' ;file = 'Macro2.mfl';
 % path_file= 'C:/CIMNE/Codes/ROM/SIMU/ROM/MS_GD_J2_Prob01/' ;file = 'Macro.mfl';
 % path_file= 'C:/CIMNE/Codes/ROM/SIMU/ROM/Mi_GD_J2_TEST13/' ;file = 'RVE5X5_Periodico.mfl'; 
@@ -16,7 +17,7 @@ NNTTLL = 'Generic_05_005_02';
 % path_file= 'C:/CIMNE/Codes/ROM/SIMU/ROM/Mi_GD_J2_RigidHole04/' ; file = 'RVE_Hole04.mfl';
 % path_file= 'C:/CIMNE/Codes/ROM/SIMU/ROM/Mi_GD_J2_RigidHole03/' ; file = 'RVE_Hole03.mfl';
 % path_file= 'C:/CIMNE/Codes/ROM/SIMU/ROM/Mi_GD_J2_Hole03/' ; file = 'RVE_Hole03.mfl';
-path_file= 'C:/CIMNE/ROM_IntrinsicDD/SIMU/ROM/Mi_GD_J2_Hole05/' ; file = 'RVE_Hole05.mfl';
+% path_file= '/home/javiermro/Projects/HPROM/SIMU/ROM/Mi_GD_J2_Hole05/' ; file = 'RVE_Hole05.mfl';
 % path_file= 'C:/CIMNE/ROM_IntrinsicDD/SIMU/ROM/Mi_GD_J2_Struct_Hole01/' ; file = 'RVE_Struct_Hole01.mfl';
 % path_file= 'C:/CIMNE/Codes/ROM/SIMU/ROM/Mi_GD_J2_Hole/' ;
 % path_file= 'C:/CIMNE/Codes/ROM/SIMU/ROM/Mi_GD_J2_RigidHole/' ;
@@ -25,19 +26,7 @@ path_file= 'C:/CIMNE/ROM_IntrinsicDD/SIMU/ROM/Mi_GD_J2_Hole05/' ; file = 'RVE_Ho
 
 % isMICRO(1).MICRO =0; % For macro & multiscale models
 isMICRO(1).MICRO =1; FACT = 1;% For RVE analysis
-% isMICRO(1).epsilon_Macro0=FACT*[0.2; 0; 0; 0; 0]; 
-% isMICRO(1).epsilon_Macro0=FACT*[0.05; 0; 0; 0.05; 0]; % Modo05 ne22
-isMICRO(1).epsilon_Macro0=FACT*[0.07; 0; 0; 0; 0]; % Modo01  ne22
-% isMICRO(1).epsilon_Macro0=FACT*[1.0; 0; 0; 0; 0]; % Modo01 TEST13 
-% isMICRO(1).epsilon_Macro0=FACT*[-0.2; 0; 0; 0 ; 0]; % Modo01 (se imponen PD)
-% isMICRO(1).epsilon_Macro0=FACT*[0.1; 0; 0; 0; 0]; % Modo02
-% isMICRO(1).epsilon_Macro0=FACT*[0; 0; 0; 1; 0]; % Modo03
-% isMICRO(1).epsilon_Macro0=FACT*[1; -0.5; 0; 0; 0]; % Modo04
-% isMICRO(1).epsilon_Macro0=FACT*[1; 0; 0; 0.5; 0]; % Modo05
-% isMICRO(1).epsilon_Macro0=FACT*[0.2; -0.1; 0; 0.1; 0]; % Modo06 SUBIR
-% isMICRO(1).epsilon_Macro =[0;0;0;0];
-% isMICRO(1).epsilon_Macro0=FACT*[-0.2; 0.1; 0; -0.1; -0.1]; % TRAYECTORIA NO ENTRENADA
-
+isMICRO(1).epsilon_Macro0=FACT*[0.2; 0; 0; 0; 0]; 
 
 %Strain and Energy Basis
 % BASIS_DATA=[path_file,'/BASIS/allStrainEnergyModes4ROMI_TEST13_InSnap75_GDJ2.mat'];
@@ -53,13 +42,13 @@ isMICRO(1).epsilon_Macro0=FACT*[0.07; 0; 0; 0; 0]; % Modo01  ne22
 % BASIS_DATA=[path_file,'/BASIS/allStrainEnergyModes4ROMI_HOLE05_nPos74_GDJ2.mat']; %'];   %  archivo mat que contiena las bases de def. y energ-. JLM
 % BASIS_DATA=[path_file,'/BASIS/allStrainEnergyModes4ROMI_HOLE05_nPos74_GDJ2_PSI_E_.mat']; %'];   %  archivo mat que contiena las bases de def. y energ-. JLM
 % BASIS_DATA=[path_file,'/BASIS/allStrainEnergyModes4ROMI_HOLE05_nPos74_GDJ2_PSI_EP.mat']; %'];   %  archivo mat que contiena las bases de def. y energ-. JLM
-%% Strutured Hole01
-BASIS_DATA=[path_file,'/BASIS/allStrainEnergyModes4ROMI_Struct_Hole01_nPos88_GDJ2_PSI_EP.mat']; %'];   %  archivo mat que contiena las bases de def. y energ-. JLM
+%% RVE_StructHole10
+BASIS_DATA=[path_file,'/BASIS/allStrainEnergyModes_RVE_StructHole10_nPos83_Phi_ela.mat']; 
 
 
 %% MODES %%%%%% ..._MODES = [REG_Domain(*)  DIS_Domain(*) ] (*) primero van los modos elasticos y los que siguen son los plasticos 
 STRAIN_MODES = [4 20];%[3 23] ; %[137 172]  TOTAL: [434 1146]
-ENERGY_MODES = [1 50]; %[106 149] TOTAL: [154 524]
+ENERGY_MODES = [10 50]; %[106 149] TOTAL: [154 524]
 %%
 LEVELS_OF_TRUN_PHI_VAR  = STRAIN_MODES(1);  %6  5;       % 5 13;  % STRAINS -----> REGULAR DOMAIN SET=2 
 LEVELS_OF_TRUN_PHI_VAR2 = STRAIN_MODES(2); %50; %50 5;       % 5 13;  % STRAINS -----> DISCONTINUOUS DOMAIN SET=1

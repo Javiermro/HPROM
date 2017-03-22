@@ -17,7 +17,6 @@ function ROM_II = HROM_OFFLINE_PROC(e_DatSet,ModoPHI_REG,ModoPHI_DIS,BASIS_DATA,
 % **********************************
 %ME_Set=find(conshyp_GEN==53);
 nGTOT=0;
-nDomain=Set_BANDAS ; % Todo el codigo esta para descomposicion de 2 dominios
 if ~e_VG.esME % MONOSCALE CASE
     e_VG_ME = e_VG;
     nSet = e_VG.nSet;
@@ -52,8 +51,7 @@ dof_FLAG = false(e_VG_ME.ndoft,nSet);
 SET_ENER_COMP = false(nGTOT,nSet);
 
 ponder_factors = zeros(nGTOT,1) ;
-% ponder_factors_SET = zeros(nGTOT,nSet);
-ponder_factors_DOMAIN = zeros(nGTOT,nDomain);
+ponder_factors_SET = zeros(nGTOT,nSet);
 
 % DEFINICION DE SET DE LAS BANDAS DISCONTINUAS
 % Set_BANDAS = 1;
@@ -65,51 +63,9 @@ COMP_STR_DIS = []; %ElemDIS = [];
 % K_CONVEX_REG = zeros(e_VG_ME.nModesEPS_bar) ;
 % K_CONVEX_DIS = zeros(e_VG_ME.nModesEPS_bar2) ;
 
-% for iDomain = 1:nDomain % solo para dos subdominios
-    for iSet = 1:nSet
-        %e_Dat_iSet = e_DatSet.e_DatMat.e_DatSet(iSet);
-        if ~e_VG.esME;  e_Dat_iSet = e_DatSet(iSet); else e_Dat_iSet = e_DatSet.e_DatMat.e_DatSet(iSet); end
-        
-        iDomain=1 ; if iSet == 3; iDomain=2 ; end   % SOLO PARA RVE_Struct_Hole_01 JLM
-
-        nElem = e_Dat_iSet.nElem;
-    %     eltype = e_Dat_iSet.e_DatElem.eltype;
-        npg = e_Dat_iSet.e_DatElem.npg;
-
-        % B Matrix by set
-    %     m_BT_SET = e_Dat_iSet.m_BT;
-
-        % Element id
-        m_NumElem = e_Dat_iSet.m_NumElem ;
-
-        %for integration of the weak problem (recover displacements from strains)
-    %     m_DetJT =   e_Dat_iSet.m_DetJT;
-    %     wg = e_Dat_iSet.e_DatElem.wg;
-    %     m_pesoPG = bsxfun(@times,m_DetJT,wg);
-
-        % Loop over the elements in each Set
-        for iElem=1:nElem
-            dof = f_DofElem(e_Dat_iSet.conec(iElem,:),e_VG_ME.ndn);
-            ponder_factors((m_NumElem(iElem)-1)*npg+1:m_NumElem(iElem)*npg) = e_Dat_iSet.m_VolElemGP(:,iElem);
-
-            % Por set para determinacion de integradores reducidos de tensiones
-            ponder_factors_DOMAIN((m_NumElem(iElem)-1)*npg+1:m_NumElem(iElem)*npg,iDomain) = e_Dat_iSet.m_VolElemGP(:,iElem);
-        end
-    end
-% end
-
-
-
-
-
-
-
-
 for iSet = 1:nSet
     %e_Dat_iSet = e_DatSet.e_DatMat.e_DatSet(iSet);
     if ~e_VG.esME;  e_Dat_iSet = e_DatSet(iSet); else e_Dat_iSet = e_DatSet.e_DatMat.e_DatSet(iSet); end
-    
-    iDomain=1 ; if iSet == 3; iDomain=2 ; end   % SOLO PARA RVE_Struct_Hole_01 JLM
     
     nElem = e_Dat_iSet.nElem;
     eltype = e_Dat_iSet.e_DatElem.eltype;
@@ -129,10 +85,10 @@ for iSet = 1:nSet
     % Loop over the elements in each Set
     for iElem=1:nElem
         dof = f_DofElem(e_Dat_iSet.conec(iElem,:),e_VG_ME.ndn);
-%         ponder_factors((m_NumElem(iElem)-1)*npg+1:m_NumElem(iElem)*npg) = e_Dat_iSet.m_VolElemGP(:,iElem);
+        ponder_factors((m_NumElem(iElem)-1)*npg+1:m_NumElem(iElem)*npg) = e_Dat_iSet.m_VolElemGP(:,iElem);
         
         % Por set para determinacion de integradores reducidos de tensiones
-%         ponder_factors_SET((m_NumElem(iElem)-1)*npg+1:m_NumElem(iElem)*npg,iSet) = e_Dat_iSet.m_VolElemGP(:,iElem);
+        ponder_factors_SET((m_NumElem(iElem)-1)*npg+1:m_NumElem(iElem)*npg,iSet) = e_Dat_iSet.m_VolElemGP(:,iElem);
 
         % Set sobre el tipo de elementos en la microescala
         switch eltype
@@ -166,10 +122,10 @@ for iSet = 1:nSet
                 PHI_DIS = ModoPHI_DIS(e_PGsID,:);
 
                 % Identificador de componentes de grados de libertad para cada uno de los sets
-                dof_FLAG(dof,iDomain)= true;
+                dof_FLAG(dof,iSet)= true;
                 
                 % Energy components in each Set at the microscale (for Energy Decomposition)
-                SET_ENER_COMP(e_PGsID2,iDomain) = true;
+                SET_ENER_COMP(e_PGsID2,iSet) = true;
                 
                 e_BT = m_BT_SET(:,:,:,iElem);
                 
@@ -206,7 +162,7 @@ for iSet = 1:nSet
                     BmatRIst_W{(m_NumElem(iElem)-1)*npg+ipg} = BmatRIT';
                     
                     %IntPhiTGen = IntPhiTGen + BmatRIstT(:,iini:ifin) ;
-                    if iSet==3 %Set_BANDAS
+                    if iSet==Set_BANDAS
                         BmatRIT = PHI_DIS(iPG_ID,:)'*e_Dat_iSet.m_VolElemGP(ipg,iElem) ;
                         if eltype==108
                             IntPhiTGen_DIS = IntPhiTGen_DIS + BmatRIT(:,[1 2 4 5]) ;% JLM
@@ -301,7 +257,7 @@ switch EnergySETS
         
         % For ponder_factors (Q factor assessment)
         PGS = false(nGTOT,1);
-        inBands = find(ponder_factors_DOMAIN(:,Set_BANDAS)~=0);
+        inBands = find(ponder_factors_SET(:,Set_BANDAS)~=0);
         PGS(inBands,1) = true;
         
         %Rearrangement of gauss weights at the small scale

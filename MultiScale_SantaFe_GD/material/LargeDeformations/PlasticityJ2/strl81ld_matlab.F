@@ -362,7 +362,7 @@ C     Norma del tensor desviador
          MSTRI=1.D0
       ENDIF
 C    
-      if(lineal) then
+      if(lineal.EQ.1) then
       
          DGAMA=FTRIAL/(DTRES*HPACT+DOSMU) ! Incr. of gamma
 C     Parece que no se usa para nada QFAUX
