@@ -73,11 +73,11 @@ switch conshyp
 %               J0 = det(m_F2D);
 %               pot = 2;
 %               m_FBar = zeros(ntens,1);
-%            case 2   %Plane stress ó en el caso que se considere modificar también la Fzz del tensor.
+%            case 2   %Plane stress ï¿½ en el caso que se considere modificar tambiï¿½n la Fzz del tensor.
 %               J0 = Fzz*det(m_F2D);
 %               pot = 3;
 %            otherwise
-%               error('Matrices Elementales FBar_q1: Tipo de cálculo del FBar no implementado.')
+%               error('Matrices Elementales FBar_q1: Tipo de cï¿½lculo del FBar no implementado.')
 %         end        
 end
 
@@ -107,9 +107,9 @@ for iROM_GP=1:nElem
     
 %     if ROM_ELEM_SET(iROM_GP)==1; p_COMP=p_bar2; else p_COMP=p_bar; end
 %     if ROM_ELEM_SET(iROM_GP)==1; p_COMP=p_bar; else p_COMP=p_bar2; end %JLM
-    p_COMP=p_bar;
-    if ROM_ELEM_SET(iROM_GP)==3; p_COMP=p_bar2; end  % SOLO PARA RVE_Struct_Hole_01 JLM
-    
+%     p_COMP=p_bar;
+%     if ROM_ELEM_SET(iROM_GP)==3; p_COMP=p_bar2; end  % SOLO PARA RVE_Struct_Hole_01 JLM
+    if ROM_ELEM_SET(iROM_GP)==1; p_COMP=p_bar; else p_COMP=p_bar2; end %JLM
     kin_Var = ModoPHI_EPS(:,p_COMP)*EPS_ROMI(p_COMP);
     
     % Deformacion fluctuante
@@ -123,7 +123,7 @@ for iROM_GP=1:nElem
    
    switch conshyp    
        case {100,110}
-           % Gradiente de deformación aplicado a cada punto de Gauss.   
+           % Gradiente de deformaciï¿½n aplicado a cada punto de Gauss.   
            m_F = eps_new(:,iROM_GP);          
            %Matriz 2D de F
            m_F2D = [m_F(1),m_F(4);m_F(5),m_F(2)];
@@ -131,18 +131,18 @@ for iROM_GP=1:nElem
           switch tipoFBar
               case 1  %Plane deformation
                  %Se utiliza lo propuesto por Souza, de no modificar la componente Fzz del tensor.         
-                 % Determinante del gradiente de deformación.
+                 % Determinante del gradiente de deformaciï¿½n.
                  J = det(m_F2D);
-                 %Gradiente de deformación FBar
+                 %Gradiente de deformaciï¿½n FBar
 %                  facFBar = (J0/J)^(1/pot);
                  facFBar = 1 ; % esto debe calcularse con J0, lo dejo asi a modo de prueba JLM
                  m_FBar([1;2;4;5]) = facFBar*m_F([1;2;4;5]);
-                 %Por si acaso se mantiene el valor que componente zz, aunque debería ser 1.
+                 %Por si acaso se mantiene el valor que componente zz, aunque deberï¿½a ser 1.
                  m_FBar(3) = Fzz;
-              case 2   %Plane stress ó en el caso que se considere modificar también la Fzz del tensor.
-                 % Determinante del gradiente de deformación.
+              case 2   %Plane stress ï¿½ en el caso que se considere modificar tambiï¿½n la Fzz del tensor.
+                 % Determinante del gradiente de deformaciï¿½n.
                  J = Fzz*det(m_F2D);            
-                 % Gradiente de deformación FBar
+                 % Gradiente de deformaciï¿½n FBar
 %                  facFBar = (J0/J)^(1/pot);
                  facFBar = 1 ; % esto debe calcularse con J0, lo dejo asi a modo de prueba JLM
                  m_FBar = facFBar*m_F;
@@ -164,7 +164,7 @@ for iROM_GP=1:nElem
       case 110 %Large deformations J2 Plasticity JLM
          [ct,sigma_new(:,iROM_GP),hvar_new(:,iROM_GP),aux_var(:,iROM_GP),strsg,dmatx] = ...
             f_RMapPlastJ2LD(m_FBar,hvar_old(:,iROM_GP),aux_var(:,iROM_GP),e_DatMatSet,e_VG);
-         %Tensor tangente elástico de Henky en función de G y K.
+         %Tensor tangente elï¿½stico de Henky en funciï¿½n de G y K.
          %G=e_DatMatSet.young/2/(1+e_DatMatSet.poiss);K=e_DatMatSet.young/3/(1-2*e_DatMatSet.poiss);d1=4/3*G+K;d2=K-2/3*G;d3=G;c=[d1,d2,0,d2;d2,d1,0,d2;0,0,d3,0;d2,d2,0,d1];
          %f_Const = @(m_FBar,m_F)f_RMapPlastJ2LD(m_FBar,hvar_old(:,iPG),aux_var(:,iPG),e_DatMatSet,e_VG);
       otherwise
